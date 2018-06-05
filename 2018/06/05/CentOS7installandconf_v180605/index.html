@@ -115,13 +115,13 @@
 <meta property="og:site_name" content="Lyon Zhang&#39;s Blog">
 <meta property="og:description" content="一. CentOS系统CentOS 是Community Enterprise Operating System的缩写，一个基于Red Hat Linux 提供的可自由使用源代码的企业级Linux发行版本。每个版本的 CentOS都会获得十年的支持（通过安全更新方式）。新版本的 CentOS 大约每两年发行一次，而每个版本的 CentOS 会定期（大概每六个月）更新一次，以便支持新的硬件。这样，建">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/06/05/CentOS7installandconf_v180605/images/Centos_sys_partition.png">
-<meta property="og:image" content="http://yoursite.com/2018/06/05/CentOS7installandconf_v180605/images/Centos_net_conf.png">
-<meta property="og:updated_time" content="2018-06-05T10:15:32.820Z">
+<meta property="og:image" content="http://yoursite.com/2018/06/05/CentOS7installandconf_v180605/images/imgs/Centos_sys_partition.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/05/CentOS7installandconf_v180605/images/imgs/Centos_net_conf.png">
+<meta property="og:updated_time" content="2018-06-05T10:51:55.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS7 系统安装和基本配置">
 <meta name="twitter:description" content="一. CentOS系统CentOS 是Community Enterprise Operating System的缩写，一个基于Red Hat Linux 提供的可自由使用源代码的企业级Linux发行版本。每个版本的 CentOS都会获得十年的支持（通过安全更新方式）。新版本的 CentOS 大约每两年发行一次，而每个版本的 CentOS 会定期（大概每六个月）更新一次，以便支持新的硬件。这样，建">
-<meta name="twitter:image" content="http://yoursite.com/2018/06/05/CentOS7installandconf_v180605/images/Centos_sys_partition.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/06/05/CentOS7installandconf_v180605/images/imgs/Centos_sys_partition.png">
 
 
 
@@ -369,7 +369,7 @@
                 
               
 
-              <time title="Created: 2018-06-05 18:15:32" itemprop="dateCreated datePublished" datetime="2018-06-05T18:15:32+08:00">2018-06-05</time>
+              <time title="Created: 2018-06-05 18:51:55" itemprop="dateCreated datePublished" datetime="2018-06-05T18:51:55+08:00">2018-06-05</time>
             
 
             
@@ -438,7 +438,7 @@
 <p><a href="http://mirrors.cug.edu.cn/centos/7.0.1406/isos/x86_64/" target="_blank" rel="noopener">http://mirrors.cug.edu.cn/centos/7.0.1406/isos/x86_64/</a> 中国地质大学</p>
 <p><a href="http://mirrors.hust.edu.cn/centos/7.0.1406/isos/x86_64/" target="_blank" rel="noopener">http://mirrors.hust.edu.cn/centos/7.0.1406/isos/x86_64/</a> 华中科技大学</p>
 <h4 id="四-分区方案"><a href="#四-分区方案" class="headerlink" title="四.分区方案"></a>四.分区方案</h4><p>最佳分区设置取决于 Linux 系统的用途。下面的提示可对您决定如何分配您的磁盘空间有帮助。</p>
-<p><img src="./images/Centos_sys_partition.png" alt="分区方案"></p>
+<p><img src="./images/imgs/Centos_sys_partition.png" alt="分区方案"></p>
 <h4 id="五-系统安装"><a href="#五-系统安装" class="headerlink" title="五.系统安装"></a>五.系统安装</h4><p>软件包选择：</p>
 <p><strong>最小安装（Minimal Install）</strong></p>
 <p>这个选项只提供运行CentOS 的基本软件包。最小安装为单一目的服务器提供基本需要，并可在这样的安装中最大化性能和安全性。</p>
@@ -469,7 +469,7 @@
 <p><strong>BIOS boot：</strong>需要有一个GUID分区表（GPT）在BIOS中的系统引导设备一个非常小的分区。</p>
 <p><strong>EFI系统分区：</strong>需要有一个GUID分区表（GPT）在UEFI系统引导装置一个小分区。</p>
 <h4 id="七-基本配置"><a href="#七-基本配置" class="headerlink" title="七. 基本配置"></a>七. 基本配置</h4><p>（1）网络配置文件描述</p>
-<p><img src="./images/Centos_net_conf.png" alt="网络参数"></p>
+<p><img src="./images/imgs/Centos_net_conf.png" alt="网络参数"></p>
 <p>（2）静态IP、hostname、hosts<br><code>#ls /etc/sysconfig/network-scripts/ifcfg-en*</code></p>
 <p><code>#vi /etc/sysconfig/network-scripts/ifcfg-en</code> //最后行添加下面文件<br>IPADDR0=10.0.2.15</p>
 <p>PREFIX0=24</p>
