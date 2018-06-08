@@ -325,6 +325,220 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/09/Apollov1_hello_v180608/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lyon Zhang">
+      <meta itemprop="description" content="本站内容仅供个人参考资料使用 QQ:287976797">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lyon Zhang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/09/Apollov1_hello_v180608/" itemprop="url">
+                  Apollo V1.0 dev和release环境搭建
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-09 07:35:38" itemprop="dateCreated datePublished" datetime="2018-06-09T07:35:38+08:00">2018-06-09</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h6 id="一-Ubuntu14-04LTS-系统"><a href="#一-Ubuntu14-04LTS-系统" class="headerlink" title="一. Ubuntu14.04LTS 系统"></a>一. Ubuntu14.04LTS 系统</h6><p>参照往期资料准备Ubuntu14.04 LTS系统。</p>
+<h6 id="二-安装Docker-CE"><a href="#二-安装Docker-CE" class="headerlink" title="二. 安装Docker CE"></a>二. 安装Docker CE</h6><ol>
+<li>卸载旧的Docker<br>如果已经安装了<code>docker</code> 或者 <code>docker-engine</code>，需要卸载他们。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get remove docker docker-engine docker.io</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果通过<code>apt-get</code>没有发现旧的Docker时可以忽略这一步。</p>
+<ol start="2">
+<li><p><code>docker-ce</code> 会被安装到<code>/var/lib/docker/</code>，包括images, containers, volumes, and networks。</p>
+</li>
+<li><p>安装文件系统驱动<br>基于Ubuntu14.04 LTS系统如果没有什么紧要的理由，需要安装<code>linux-image-extra-*</code> packages，这会允许Docker使用<code>aufs</code>文件系统。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line"></span><br><span class="line">$ sudo apt-get install \</span><br><span class="line">    linux-image-extra-$(uname -r) \</span><br><span class="line">    linux-image-extra-virtual</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>安装并使用Docker仓库<br>当你在一个新的机器上第一次安装Docker CE之前，需要设置Docker仓库。将来你可以从这个仓库安装或者更新Docker。</li>
+</ol>
+<p>设置方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure></p>
+<p>//允许<code>apt</code>通过Https访问Docker仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    software-properties-common</span><br></pre></td></tr></table></figure></p>
+<p>//添加Docker官方GPG Key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure></p>
+<p>你可以通过search最后8字符的方式确认是否已经成功安装了<code>9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88</code>这个指纹。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-key fingerprint 0EBFCD88</span><br><span class="line">   </span><br><span class="line">   pub   4096R/0EBFCD88 2017-02-22</span><br><span class="line">         Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</span><br><span class="line">   uid                  Docker Release (CE deb) &lt;docker@docker.com&gt;</span><br><span class="line">   sub   4096R/F273FCD8 2017-02-22</span><br></pre></td></tr></table></figure></p>
+<ol start="5">
+<li>使用下面命令安装<strong>stable</strong> repository。即便是你想要安装<strong>edge</strong> 或者 <strong>test</strong>repositories，你也是需要安装<strong>stable</strong> repository的。安装<strong>edge</strong> 或者 <strong>test</strong> repository只需要增加<code>edge</code> 或者 <code>test</code>（或者他们俩）关键字在下面命令行中<code>stable</code>之后。<blockquote>
+<p><strong>注意</strong>:  <code>lsb_release -cs</code>子命令返回的是你的Ubuntu系统的描述，例如<code>xenial</code>。有时候一些Linux 最小化安装会需要你将<code>$(lsb_release -cs)</code>子命令替换为你的父Ubuntu描述。例如你安装的是<code>Linux Mint Rafaela</code>，你其实是需要<code>trusty</code>。所以运行完整命令前，先看看这个子命令的返回值会比较稳妥。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>X86_64/amd64架构下的命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository \</span><br><span class="line">   &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span><br><span class="line">   $(lsb_release -cs) \</span><br><span class="line">   stable&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="6">
+<li>安装DOCKER CE<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>// 安装<em>latest version</em>版本的Docker CE，或者你可以跳过这一步去下一步安装个其他版本的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install docker-ce</span><br></pre></td></tr></table></figure></p>
+<p>// 你要是安装别的版本那就不是本文档的重点了，你可以去看看其他Docker主题的材料了。</p>
+<p>//列表可用的版本，命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ apt-cache madison docker-ce</span><br><span class="line"></span><br><span class="line">docker-ce | 18.03.0~ce-0~ubuntu | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages</span><br></pre></td></tr></table></figure></p>
+<p>//运行完以上命令的情况下，Docker daemon会自动启动。</p>
+<p>//确认Docker CE已经正常安装，可以运行下<code>hello-world</code> image。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run hello-world</span><br></pre></td></tr></table></figure></p>
+<p>//你的电脑第一次运行的时候会去下载这个镜像，然后就会自动运行了。<br>//现在Docker CE已经被安装和运行了。但是<code>docker</code> group并没有创建自己的用户在你的系统上，因此你需要使用<code>sudo</code> 运行Docker 命令。有些更高级的设置，可以去看看Docker的官方手册。</p>
+<ol start="7">
+<li>卸载Dokcer CE的命令<br>//卸载Docker CE 包<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get purge docker-ce</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>//删除Images, containers, volumes, or customized configuration files，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure></p>
+<p>//你必须手动删除任何你编辑过的配置文件。</p>
+<ol start="8">
+<li>学习下Docker的基本命令<br>//查看当前正在运行的容器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>//查看所有容器的状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure></p>
+<p>//启动/停止某个容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start/stop id/name</span><br></pre></td></tr></table></figure></p>
+<p>//进入某个容器(使用exit退出后容器也跟着停止运行)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker attach id</span><br></pre></td></tr></table></figure></p>
+<p>//启动一个伪终端以交互式的方式进入某个容器（使用exit退出后容器不停止运行）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -ti id</span><br></pre></td></tr></table></figure></p>
+<p>//查看本地镜像docker rm id/name 删除某个容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure></p>
+<p>//删除某个镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi id/name</span><br></pre></td></tr></table></figure></p>
+<p>//复制ubuntu容器并且重命名为test且运行，然后以伪终端交互式方式进入容器，运行bash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name test -ti ubuntu /bin/bash</span><br></pre></td></tr></table></figure></p>
+<p>//通过当前目录下的Dockerfile创建一个名为soar/centos:7.1的镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t soar/centos:7.1 .</span><br></pre></td></tr></table></figure></p>
+<p>//以镜像soar/centos:7.1创建名为test的容器，并以后台模式运行，并做端口映射到宿主机2222端口，P参数重启容器宿主机端口会发生改变<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 2222:22 --name test soar/centos:7.1</span><br></pre></td></tr></table></figure></p>
+<h6 id="三-下载Apollo代码"><a href="#三-下载Apollo代码" class="headerlink" title="三. 下载Apollo代码"></a>三. 下载Apollo代码</h6><p>通过wget下载Release代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># wget -c https://github.com/ApolloAuto/apollo/archive/v1.0.0.tar.gz</span><br><span class="line"># tar zxvf v1.0.0.tar.gz</span><br><span class="line"># cd apollo-1.0.0</span><br><span class="line"># ls -F</span><br><span class="line">apollo_docker.sh*  apollo.doxygen  apollo.sh*  AUTHORS.md  BUILD  CPPLINT.cfg</span><br><span class="line">docker/  docs/  LICENSE  modules/  README.md  scripts/  third_party/  tools/  WORKSPACE</span><br></pre></td></tr></table></figure></p>
+<h6 id="三-体验Apollo-Dev环境"><a href="#三-体验Apollo-Dev环境" class="headerlink" title="三.  体验Apollo Dev环境"></a>三.  体验Apollo Dev环境</h6><p>pre-specified Docker dev环境<br>//切换到Root用户,省了总是敲sudo<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -s</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd apollo-1.0.0</span><br></pre></td></tr></table></figure>
+<p>//启动Dov模式Docker镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash docker/scripts/dev_start.sh</span><br></pre></td></tr></table></figure></p>
+<p>第一次运行这个命令会首先下载apolloauto/apollo:dev-latest 这个Docker镜像。<br>这个image比较大，大概有9个G左右，因此要在一个具有稳定网络环境下下载，否则总是断，体验就不好了，毕竟都还是喜欢一路顺畅的感觉。</p>
+<p>//切入容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># bash docker/scripts/dev_into.sh  </span><br><span class="line">root@in_dev_docker:/apollo#</span><br></pre></td></tr></table></figure></p>
+<p>运行如下命令编译源代码，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@in_dev_docker:/apollo#  bash apollo.sh build</span><br></pre></td></tr></table></figure></p>
+<p>如果提示有些遗留目录需要清除，就按照说明删除，然后再次运行编译脚本即可。</p>
+<p>dev环境中相关的依赖已经就绪，因此无需过多干预，一段时间之后，就会编译成功。</p>
+<p>运行apollo demo<br>dev环境和release环境都可以运行</p>
+<p>// 启动基于apolloauto/apollo:release-latest image的apollo container<br>//第一次运行会下载apolloauto/apollo:release-latest image，大约3.2G<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cd apollo-1.0.0/</span><br><span class="line"># bash docker/scripts/release_start.sh</span><br></pre></td></tr></table></figure></p>
+<p>//切入到容器中去<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># bash docker/scripts/release_into.sh</span><br><span class="line">root@in_release_docker:/apollo#</span><br></pre></td></tr></table></figure></p>
+<p>在容器中启动HMI(human-machine interface)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@in_release_docker:/apollo# bash scripts/hmi.sh</span><br><span class="line">Start roscore...</span><br><span class="line">HMI ros node service running at localhost:8887</span><br><span class="line">HMI running at http://localhost:8887</span><br><span class="line"></span><br><span class="line">root@in_release_docker:/apollo# rosnode list</span><br><span class="line">/hmi_ros_node_service</span><br><span class="line">/rosout</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，hmi.sh脚本启动了roscore(ros master节点和相关服务）以及hmi的service，我们打开浏览器，输入：<a href="http://host_ip:8887即可看到如下场景：" target="_blank" rel="noopener">http://host_ip:8887即可看到如下场景：</a></p>
+<p>在容器内继续执行如下命令，回放小车的轨迹数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># rosbag play -l ./docs/demo_guide/demo.bag</span><br><span class="line"></span><br><span class="line">[ INFO] [1502809442.462789096]: Opening ./docs/demo_guide/demo.bag</span><br><span class="line"></span><br><span class="line">Waiting 0.2 seconds after advertising topics... done.</span><br><span class="line"></span><br><span class="line">Hit space to toggle paused, or &apos;s&apos; to step.</span><br><span class="line"> [RUNNING]  Bag Time: 1497125289.756657   Duration: 20.614178 / 41.613536</span><br><span class="line"> [RUNNING]  Bag Time: 1497125289.896669   Duration: 20.754189 / 41.613536</span><br><span class="line">... ...</span><br></pre></td></tr></table></figure></p>
+<p>我们打开hmi页面上的Debug开关，点击右上角的”Dreamview”按钮，稍后片刻，你就会在新打开的页面上看到小车仿真寻迹行驶的场景了。</p>
+<blockquote>
+<p><strong>注意</strong>:  dreamview的websocket建立连接需要使用网络端口，例如8888。所以有时候数据不通的情况下检查你的防火墙设置。</p>
+</blockquote>
+<p>   Done.  @20180609</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-tags" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/Ubuntu14.4repository_v180608/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -371,13 +585,9 @@
                 
               
 
-              <time title="Created: 2018-06-08 16:43:49 / Modified: 16:43:38" itemprop="dateCreated datePublished" datetime="2018-06-08T16:43:49+08:00">2018-06-08</time>
+              <time title="Created: 2018-06-08 18:17:31" itemprop="dateCreated datePublished" datetime="2018-06-08T18:17:31+08:00">2018-06-08</time>
             
 
-            
-              
-
-              
             
           </span>
 
@@ -416,14 +626,12 @@
 <p><code>sudo cp /etc/apt/sources.list /etc/apt/sources.list_backup</code></p>
 <p><strong><em><u>注意一定要选对版本号!</u></em></strong></p>
 <h4 id="三-源列表"><a href="#三-源列表" class="headerlink" title="三.  源列表"></a>三.  源列表</h4><p> <strong>Trusty(14.04)</strong>版本</p>
-<p>######网易163更新服务器（广东广州电信/联通千兆双线接入），包含其他开源镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure></p>
-<p>######搜狐更新服务器（山东联通千兆接入，官方中国大陆地区镜像跳转至此） ，包含其他开源镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure></p>
-<p>######清华大学更新服务器，（教育网核心节点百兆接入，已计划提高到千兆）由清华大学学生网管会维护。包含其他开源镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></p>
-<p>######IPv4-Only 地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></p>
-<p>######IPv6-Only 地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn//ubuntu/ trusty-security main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main multiverse restricted universe</span><br></pre></td></tr></table></figure>
-<p>####四. 基本命令</p>
-<p>######## 更新命令</p>
+<h6 id="网易163更新服务器（广东广州电信-联通千兆双线接入），包含其他开源镜像："><a href="#网易163更新服务器（广东广州电信-联通千兆双线接入），包含其他开源镜像：" class="headerlink" title="网易163更新服务器（广东广州电信/联通千兆双线接入），包含其他开源镜像："></a>网易163更新服务器（广东广州电信/联通千兆双线接入），包含其他开源镜像：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<h6 id="搜狐更新服务器（山东联通千兆接入，官方中国大陆地区镜像跳转至此）-，包含其他开源镜像："><a href="#搜狐更新服务器（山东联通千兆接入，官方中国大陆地区镜像跳转至此）-，包含其他开源镜像：" class="headerlink" title="搜狐更新服务器（山东联通千兆接入，官方中国大陆地区镜像跳转至此） ，包含其他开源镜像："></a>搜狐更新服务器（山东联通千兆接入，官方中国大陆地区镜像跳转至此） ，包含其他开源镜像：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<h6 id="清华大学更新服务器，（教育网核心节点百兆接入，已计划提高到千兆）由清华大学学生网管会维护。包含其他开源镜像："><a href="#清华大学更新服务器，（教育网核心节点百兆接入，已计划提高到千兆）由清华大学学生网管会维护。包含其他开源镜像：" class="headerlink" title="清华大学更新服务器，（教育网核心节点百兆接入，已计划提高到千兆）由清华大学学生网管会维护。包含其他开源镜像："></a>清华大学更新服务器，（教育网核心节点百兆接入，已计划提高到千兆）由清华大学学生网管会维护。包含其他开源镜像：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<h6 id="IPv4-Only-地址"><a href="#IPv4-Only-地址" class="headerlink" title="IPv4-Only 地址"></a>IPv4-Only 地址</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<h6 id="IPv6-Only-地址"><a href="#IPv6-Only-地址" class="headerlink" title="IPv6-Only 地址"></a>IPv6-Only 地址</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn//ubuntu/ trusty-security main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main multiverse restricted universe</span><br></pre></td></tr></table></figure>
+<h4 id="四-基本命令"><a href="#四-基本命令" class="headerlink" title="四. 基本命令"></a>四. 基本命令</h4><p>######## 更新命令</p>
 <p><code>sudo apt-get update</code></p>
 <p><code>sudo apt-get upgrade</code></p>
 <p>######## 安装SSH服务<br><code>sudo apt-get install openssh-server</code></p>
@@ -969,7 +1177,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -988,7 +1196,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">tags</span>
                   
                 </div>
