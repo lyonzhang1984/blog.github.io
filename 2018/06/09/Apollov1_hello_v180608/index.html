@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="Lyon Zhang">
 <meta property="og:description" content="一. Ubuntu14.04LTS 系统参照往期资料准备Ubuntu14.04 LTS系统。 二. 安装Docker CE 卸载旧的Docker如果已经安装了docker 或者 docker-engine，需要卸载他们。1$ sudo apt-get remove docker docker-engine docker.io   如果通过apt-get没有发现旧的Docker时可以忽略这一步。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-08T23:35:38.522Z">
+<meta property="og:updated_time" content="2018-06-08T23:41:49.615Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Apollo V1.0 dev和release环境搭建">
 <meta name="twitter:description" content="一. Ubuntu14.04LTS 系统参照往期资料准备Ubuntu14.04 LTS系统。 二. 安装Docker CE 卸载旧的Docker如果已经安装了docker 或者 docker-engine，需要卸载他们。1$ sudo apt-get remove docker docker-engine docker.io   如果通过apt-get没有发现旧的Docker时可以忽略这一步。">
@@ -367,7 +367,7 @@
                 
               
 
-              <time title="Created: 2018-06-09 07:35:38" itemprop="dateCreated datePublished" datetime="2018-06-09T07:35:38+08:00">2018-06-09</time>
+              <time title="Created: 2018-06-09 07:41:49" itemprop="dateCreated datePublished" datetime="2018-06-09T07:41:49+08:00">2018-06-09</time>
             
 
             
@@ -428,7 +428,7 @@
 </li>
 </ol>
 <ul>
-<li>X86_64/amd64架构下的命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository \</span><br><span class="line">   &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span><br><span class="line">   $(lsb_release -cs) \</span><br><span class="line">   stable&quot;</span><br></pre></td></tr></table></figure>
+<li>X86_64/amd64架构下的命令:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository \</span><br><span class="line">     &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span><br><span class="line">     $(lsb_release -cs) \</span><br><span class="line">     stable&quot;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <ol start="6">
@@ -442,9 +442,9 @@
 <p>//确认Docker CE已经正常安装，可以运行下<code>hello-world</code> image。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run hello-world</span><br></pre></td></tr></table></figure></p>
 <p>//你的电脑第一次运行的时候会去下载这个镜像，然后就会自动运行了。<br>//现在Docker CE已经被安装和运行了。但是<code>docker</code> group并没有创建自己的用户在你的系统上，因此你需要使用<code>sudo</code> 运行Docker 命令。有些更高级的设置，可以去看看Docker的官方手册。</p>
 <ol start="7">
-<li>卸载Dokcer CE的命令<br>//卸载Docker CE 包<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get purge docker-ce</span><br></pre></td></tr></table></figure>
-</li>
+<li>卸载Dokcer CE的命令<br>//卸载Docker CE 包</li>
 </ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get purge docker-ce</span><br></pre></td></tr></table></figure>
 <p>//删除Images, containers, volumes, or customized configuration files，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure></p>
 <p>//你必须手动删除任何你编辑过的配置文件。</p>
 <ol start="8">
