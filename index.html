@@ -316,7 +316,165 @@
 
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-tags" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/Ubuntu14.4repository_v180608/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lyon Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lyon Zhang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/08/Ubuntu14.4repository_v180608/" itemprop="url">
+                  Ubuntu14.04 LTS 系统初始化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-08 16:43:49 / Modified: 16:43:38" itemprop="dateCreated datePublished" datetime="2018-06-08T16:43:49+08:00">2018-06-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="一-查看系统版本"><a href="#一-查看系统版本" class="headerlink" title="一. 查看系统版本"></a>一. 查看系统版本</h4><p><code>cat /etc/issue</code></p>
+<h4 id="二-更新源"><a href="#二-更新源" class="headerlink" title="二. 更新源"></a>二. 更新源</h4><p>首先备份源列表:</p>
+<p><code>sudo cp /etc/apt/sources.list /etc/apt/sources.list_backup</code></p>
+<p><strong><em><u>注意一定要选对版本号!</u></em></strong></p>
+<h4 id="三-源列表"><a href="#三-源列表" class="headerlink" title="三.  源列表"></a>三.  源列表</h4><p> <strong>Trusty(14.04)</strong>版本</p>
+<p>######网易163更新服务器（广东广州电信/联通千兆双线接入），包含其他开源镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure></p>
+<p>######搜狐更新服务器（山东联通千兆接入，官方中国大陆地区镜像跳转至此） ，包含其他开源镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.sohu.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.sohu.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure></p>
+<p>######清华大学更新服务器，（教育网核心节点百兆接入，已计划提高到千兆）由清华大学学生网管会维护。包含其他开源镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></p>
+<p>######IPv4-Only 地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.4.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></p>
+<p>######IPv6-Only 地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn//ubuntu/ trusty-security main multiverse restricted universe</span><br><span class="line">deb http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.6.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main multiverse restricted universe</span><br></pre></td></tr></table></figure>
+<p>####四. 基本命令</p>
+<p>######## 更新命令</p>
+<p><code>sudo apt-get update</code></p>
+<p><code>sudo apt-get upgrade</code></p>
+<p>######## 安装SSH服务<br><code>sudo apt-get install openssh-server</code></p>
+<p><code>sudo ps -e |grep ssh</code></p>
+<p><code>sudo service ssh start</code></p>
+<p>   Done.  @20180608</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-tags" itemscope itemtype="http://schema.org/Article">
   
   
   
@@ -367,7 +525,7 @@
                 
               
 
-              <time title="Created: 2018-06-05 18:51:55" itemprop="dateCreated datePublished" datetime="2018-06-05T18:51:55+08:00">2018-06-05</time>
+              <time title="Created: 2018-06-05 19:11:04" itemprop="dateCreated datePublished" datetime="2018-06-05T19:11:04+08:00">2018-06-05</time>
             
 
             
@@ -807,7 +965,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -815,6 +973,21 @@
 
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
               
             </nav>
           
